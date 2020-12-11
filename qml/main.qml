@@ -211,7 +211,7 @@ Kirigami.ApplicationWindow {
 
         function onInitiated() {
             if (Controller.accountCount === 0) {
-                pageStack.replace("qrc:/imports/NeoChat/Page/LoginPage.qml", {});
+                pageStack.replace("qrc:/imports/NeoChat/Page/WelcomePage.qml", {});
             } else {
                 roomManager.roomList = pageStack.replace(roomListComponent, {'activeConnection': Controller.activeConnection});
                 roomManager.loadInitialRoom();
@@ -227,7 +227,7 @@ Kirigami.ApplicationWindow {
         function onConnectionDropped() {
             if (Controller.accountCount === 0) {
                 pageStack.clear();
-                pageStack.replace("qrc:/imports/NeoChat/Page/LoginPage.qml");
+                pageStack.replace("qrc:/imports/NeoChat/Page/WelcomePage.qml");
             }
         }
 

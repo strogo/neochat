@@ -14,6 +14,8 @@
         <file>imports/NeoChat/Page/StartChatPage.qml</file>
         <file>imports/NeoChat/Page/ImageEditorPage.qml</file>
         <file>imports/NeoChat/Page/DevicesPage.qml</file>
+        <file>imports/NeoChat/Page/WelcomePage.qml</file>
+        <file>imports/NeoChat/Page/HomeserverPage.qml</file>
         <file>imports/NeoChat/Component/qmldir</file>
         <file>imports/NeoChat/Component/ChatTextInput.qml</file>
         <file>imports/NeoChat/Component/AutoMouseArea.qml</file>

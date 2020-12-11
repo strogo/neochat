@@ -571,4 +571,30 @@ NeochatDeleteDeviceJob::NeochatDeleteDeviceJob(const QString& deviceId, const Om
     QJsonObject _data;
     addParam<IfNotEmpty>(_data, QStringLiteral("auth"), auth);
     setRequestData(std::move(_data));
+
+}
+
+void Controller::testConnection(const QString &connection)
+{
+    if(m_currentTestJob) {
+        m_currentTestJob->abandon();        
+    }
+    QUrl url = QUrl::fromUserInput(connection);
+    url.setScheme(QStringLiteral("https"));
+    if(!url.isValid()) {
+        return;
+    }
+    
+    Connection *c = new Connection(this);
+    c->resolveServer(QStringLiteral("@username:") + connection);
+    auto job = c->callApi<GetWellknownJob>();
+    m_currentTestJob = job;
+    connect(job, &BaseJob::result, this, [connection, c, this, job](){
+        c->setHomeserver(job->data().homeserver.baseUrl);
+        connect(c, &Connection::loginFlowsChanged, this, [=](){
+            Q_EMIT testConnectionResult(connection, c->isUsable());
+            c->deleteLater();
+            m_currentTestJob = nullptr;
+        });
+    });
 }
