@@ -99,7 +99,7 @@ Kirigami.ApplicationWindow {
             if (!secondayWindow) {
                 secondayWindow = roomWindow.createObject(applicationWindow(), {currentRoom: room});
                 secondayWindow.show();
-                secondayWindow.onClose.connect(function() {
+                secondayWindow.closing.connect(function() {
                     const room = secondayWindow.currentRoom;
                     secondayWindow = null;
                     enterRoom(room);
