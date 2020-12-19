@@ -7,13 +7,13 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12 as QQC2
 import QtQuick.Window 2.2
 import QtQuick.Layouts 1.12
+import org.kde.kirigami 2.14 as Kirigami
 
-QQC2.ApplicationWindow {
+Kirigami.ApplicationWindow {
     id: window
     required property var currentRoom
-    RoomPage {
+    pageStack.initialPage: RoomPage {
         visible: true
-        anchors.fill: parent
         currentRoom: window.currentRoom
     }
 }

@@ -42,6 +42,7 @@ Kirigami.ApplicationWindow {
         property bool invitationOpen: false
         property var roomList: null
         property Item roomItem: null
+        property var secondayWindow: null
 
         readonly property bool hasOpenRoom: currentRoom !== null
 
@@ -64,7 +65,15 @@ Kirigami.ApplicationWindow {
             if (currentRoom != null || invitationOpen) {
                 roomItem.currentRoom = room;
             } else {
-                roomItem = pageStack.push(roomPage, { 'currentRoom': room, });
+                if (secondayWindow !== null) {
+                    secondayWindow.currentRoom = room;
+                    Config.openRoom = room.id;
+                    Config.save();
+                    connectRoomToSignal(roomItem);
+                    return roomItem;
+                } else {
+                    roomItem = pageStack.push(roomPage, { 'currentRoom': room, });
+                }
             }
             currentRoom = room;
             Config.openRoom = room.id;
@@ -84,6 +93,25 @@ Kirigami.ApplicationWindow {
 
         function getBack() {
             pageStack.replace(roomPage, { 'currentRoom': currentRoom, });
+        }
+
+        function openWindow(room) {
+            if (!secondayWindow) {
+                secondayWindow = roomWindow.createObject(applicationWindow(), {currentRoom: room});
+                secondayWindow.show();
+                secondayWindow.onClose.connect(function() {
+                    const room = secondayWindow.currentRoom;
+                    secondayWindow = null;
+                    enterRoom(room);
+                });
+                root.width = roomList.width;
+                if (currentRoom != null || invitationOpen) {
+                    pageStack.pop();
+                    currentRoom = null;
+                }
+            } else {
+                secondayWindow.currentRoom = room;
+            }
         }
 
         function connectRoomToSignal(item) {
@@ -253,5 +281,10 @@ Kirigami.ApplicationWindow {
         id: createRoomDialog
 
         CreateRoomDialog {}
+    }
+
+    Component {
+        id: roomWindow
+        RoomWindow {}
     }
 }

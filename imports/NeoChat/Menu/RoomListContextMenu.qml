@@ -50,15 +50,7 @@ Menu {
 
     MenuItem {
         text: i18n("Open in new window")
-        onTriggered: {
-            const window = roomWindow.createObject(applicationWindow(), {currentRoom: room});
-            window.show();
-        }
-    }
-
-    Component {
-        id: roomWindow
-        RoomWindow {}
+        onTriggered: roomManager.openWindow(room);
     }
 
     onClosed: destroy()
