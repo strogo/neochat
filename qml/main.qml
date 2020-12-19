@@ -98,9 +98,12 @@ Kirigami.ApplicationWindow {
         function openWindow(room) {
             if (!secondayWindow) {
                 secondayWindow = roomWindow.createObject(applicationWindow(), {currentRoom: room});
+                secondayWindow.x = root.x + roomList.width;
+                secondayWindow.y = root.y;
                 secondayWindow.show();
                 secondayWindow.closing.connect(function() {
                     const room = secondayWindow.currentRoom;
+                    root.width = root.width + secondayWindow.width;
                     secondayWindow = null;
                     enterRoom(room);
                 });
