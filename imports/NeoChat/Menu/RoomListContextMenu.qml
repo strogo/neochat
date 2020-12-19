@@ -6,6 +6,7 @@
  */
 import QtQuick 2.12
 import QtQuick.Controls 2.12
+import NeoChat.Page 1.0
 
 /**
  * Context menu when clicking on a room in the room list
@@ -43,6 +44,21 @@ Menu {
     MenuItem {
         text: i18n("Leave Room")
         onTriggered: room.forget()
+    }
+
+    MenuSeparator {}
+
+    MenuItem {
+        text: i18n("Open in new window")
+        onTriggered: {
+            const window = roomWindow.createObject(applicationWindow(), {currentRoom: room});
+            window.show();
+        }
+    }
+
+    Component {
+        id: roomWindow
+        RoomWindow {}
     }
 
     onClosed: destroy()
